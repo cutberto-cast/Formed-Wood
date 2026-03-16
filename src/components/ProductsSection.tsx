@@ -4,10 +4,10 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { BlurText } from "./BlurText";
 
-const chair1 = "/chair-1.jpg";
-const chair2 = "/chair-2.jpg";
-const chair3 = "/chair-3.jpg";
-const chair5 = "/chair-5.jpg";
+const chair1 = "/chair-1.webp";
+const chair2 = "/chair-2.webp";
+const chair3 = "/chair-3.webp";
+const chair5 = "/chair-5.webp";
 
 const products = [
   { img: chair1, name: "Nórdica", materials: "Nogal americano, aceite natural", price: "$8,900" },

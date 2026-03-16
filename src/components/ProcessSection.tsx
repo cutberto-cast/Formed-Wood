@@ -4,10 +4,10 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { BlurText } from "./BlurText";
 
-const process1 = "/process-1.jpg";
-const process2 = "/process-2.jpg";
-const process3 = "/process-3.jpg";
-const process4 = "/process-4.jpg";
+const process1 = "/process-1.webp";
+const process2 = "/process-2.webp";
+const process3 = "/process-3.webp";
+const process4 = "/process-4.webp";
 
 const steps = [
   { num: "01", title: "Diseño", desc: "Cada silla comienza como un boceto. Definimos proporciones, ergonomía y carácter antes de tocar la madera.", img: process1 },

@@ -4,14 +4,14 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { BlurText } from "./BlurText";
 
-const chair1 = "/chair-1.jpg";
-const chair2 = "/chair-2.jpg";
-const chair3 = "/chair-3.jpg";
-const chair4 = "/chair-4.jpg";
-const chair5 = "/chair-5.jpg";
-const chair6 = "/chair-6.jpg";
-const chair7 = "/chair-7.jpg";
-const chair8 = "/chair-8.png";
+const chair1 = "/chair-1.webp";
+const chair2 = "/chair-2.webp";
+const chair3 = "/chair-3.webp";
+const chair4 = "/chair-4.webp";
+const chair5 = "/chair-5.webp";
+const chair6 = "/chair-6.webp";
+const chair7 = "/chair-7.webp";
+const chair8 = "/chair-8.webp";
 
 const projects = [
   { img: chair1, name: "Silla Nórdica", material: "Nogal americano", size: "large" },
