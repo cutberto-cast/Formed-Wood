@@ -13,15 +13,20 @@ const chair6 = "/chair-6.webp";
 const chair7 = "/chair-7.webp";
 const chair8 = "/chair-8.webp";
 
-const projects = [
-  { img: chair1, name: "Silla Nórdica", material: "Nogal americano", size: "large" },
-  { img: chair2, name: "Lounge Tejido", material: "Fresno & cuerda natural", size: "small" },
-  { img: chair3, name: "Mecedora Clásica", material: "Cerezo silvestre", size: "small" },
-  { img: chair4, name: "Banco Alto", material: "Haya natural", size: "medium" },
-  { img: chair7, name: "Sillón de Lectura", material: "Cerezo macizo", size: "medium" },
-  { img: chair5, name: "Sillón Cuero", material: "Nogal & cuero", size: "large" },
-  { img: chair6, name: "Taburete Minimal", material: "Roble blanco", size: "small" },
-  { img: chair8, name: "Silla de Comedor", material: "Nogal & lino", size: "small" },
+// Layout: 4 columnas x 4 filas = 16 celdas exactas sin huecos
+// Fila 1-2: [img1 2×2] | [img2 1×1] [img3 1×1]
+//                       | [img4 1×1] [img5 1×1]
+// Fila 3-4: [img6 1×2] [img7 1×2] [img8 1×2] [texto 1×2]
+const galleryItems = [
+  { type: "image", img: chair1, colClasses: "col-span-2 row-span-2" },       // grande
+  { type: "image", img: chair2, colClasses: "col-span-1 row-span-1" },       // pequeña
+  { type: "image", img: chair3, colClasses: "col-span-1 row-span-1" },       // pequeña
+  { type: "image", img: chair4, colClasses: "col-span-1 row-span-1" },       // pequeña
+  { type: "image", img: chair5, colClasses: "col-span-1 row-span-1" },       // pequeña
+  { type: "image", img: chair6, colClasses: "col-span-1 row-span-1" },       // cuadrada
+  { type: "image", img: chair7, colClasses: "col-span-1 row-span-1" },       // cuadrada
+  { type: "image", img: chair8, colClasses: "col-span-1 row-span-1" },       // cuadrada
+  { type: "text",  text: "La madera respira, siente y recuerda su origen. Nosotros solo la ayudamos a encontrar su nueva forma.", colClasses: "col-span-1 row-span-1 flex items-center justify-center p-6 text-center border border-border/50 rounded-2xl bg-card" },
 ];
 
 const titleVariant = {
@@ -33,12 +38,17 @@ const titleVariant = {
   },
 };
 
-const itemVariant = {
-  hidden: { opacity: 0, y: 60 },
+const dropVariant = {
+  hidden: { opacity: 0, y: -800, scale: 0.2 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 1.4, ease: "easeOut" as const, delay: 0.2 + i * 0.15 },
+    scale: 1,
+    transition: { 
+      duration: 1.6, 
+      ease: [0.895, 0, 0.18, 1] as [number, number, number, number],
+      delay: i * 0.1,
+    },
   }),
 };
 
@@ -46,8 +56,14 @@ const GallerySection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: "-15% 0px" });
 
+  // Mezclar un poco el índice para que no bajen exactamente en orden de grid, dando un efecto más aleatorio "disparejo"
+  const getRandomStagger = (index: number) => {
+    const shuffle = [3, 0, 5, 1, 8, 4, 2, 7, 6]; 
+    return shuffle[index];
+  };
+
   return (
-    <section id="galeria" className="py-32 section-padding bg-background" ref={containerRef}>
+    <section id="galeria" className="py-32 section-padding bg-background overflow-hidden" ref={containerRef}>
       <div className="max-w-7xl mx-auto">
         <BlurText text="Galería de proyectos" animateBy="words" className="body-sm mb-4 text-accent block" />
         <motion.h2
@@ -60,29 +76,30 @@ const GallerySection = () => {
         </motion.h2>
 
         {/* Asymmetric grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 auto-rows-[250px] md:auto-rows-[300px]">
-          {projects.map((p, i) => (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 auto-rows-[150px] md:auto-rows-[250px] grid-flow-dense mt-10">
+          {galleryItems.map((item, i) => (
             <motion.div
-              key={p.name + i}
-              className={`relative overflow-hidden rounded-2xl group cursor-pointer ${p.size === "large" ? "col-span-2 row-span-2" :
-                p.size === "medium" ? "col-span-2" : "col-span-1"
-                }`}
-              variants={itemVariant}
+              key={i}
+              className={`relative overflow-hidden group cursor-pointer ${item.colClasses} ${item.type === "image" ? "rounded-2xl" : ""}`}
+              variants={dropVariant}
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
-              custom={i}
+              custom={getRandomStagger(i)}
             >
-              <img
-                src={p.img}
-                alt={p.name}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
-                <div>
-                  <h3 className="font-display text-xl text-primary-foreground">{p.name}</h3>
-                  <p className="font-body text-sm text-primary-foreground/70">{p.material}</p>
-                </div>
-              </div>
+              {item.type === "image" ? (
+                <>
+                  <img
+                    src={item.img!}
+                    alt="Pieza de carpintería"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500"></div>
+                </>
+              ) : (
+                <p className="font-display text-lg md:text-2xl italic text-foreground leading-snug">
+                  "{item.text}"
+                </p>
+              )}
             </motion.div>
           ))}
         </div>

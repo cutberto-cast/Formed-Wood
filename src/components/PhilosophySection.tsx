@@ -76,15 +76,21 @@ const PhilosophySection = () => {
           {cards.map((card, i) => (
             <motion.div
               key={card.title}
-              className="glass-card p-8 md:p-10 group hover:shadow-xl hover:-translate-y-2 hover:bg-white/60 transition-all duration-500 ease-out"
+              className="flip-card h-80 min-h-[320px] cursor-pointer"
               variants={cardVariant}
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
               custom={i}
             >
-              <span className="text-3xl mb-6 block text-accent transform transition-transform duration-500 group-hover:scale-110 origin-left">{card.icon}</span>
-              <h3 className="heading-md text-foreground mb-4">{card.title}</h3>
-              <p className="font-body text-muted-foreground leading-relaxed">{card.text}</p>
+              <div className="flip-card-inner">
+                <div className="flip-card-front p-8 md:p-10">
+                  <span className="text-4xl mb-6 block text-primary">{card.icon}</span>
+                  <h3 className="heading-md text-foreground">{card.title}</h3>
+                </div>
+                <div className="flip-card-back p-8 md:p-10 flex items-center justify-center">
+                  <p className="font-body text-primary-foreground/90 leading-relaxed text-sm md:text-base text-center">{card.text}</p>
+                </div>
+              </div>
             </motion.div>
           ))}
         </div>
